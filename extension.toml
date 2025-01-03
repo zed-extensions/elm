@@ -4,7 +4,7 @@ description = "Elm support."
 version = "0.0.1"
 schema_version = 1
 authors = ["Quinn Wilton <quinn@quinnwilton.com>", "Andrey Kuzmin <hi@unsoundscapes.com>"]
-repository = "https://github.com/zed-industries/zed"
+repository = "https://github.com/zed-extensions/elm"
 
 [language_servers.elm-language-server]
 name = "elm-language-server"
