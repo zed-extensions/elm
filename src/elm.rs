@@ -5,6 +5,7 @@ use zed::{
 };
 use zed_extension_api::{self as zed, Result};
 
+const BINARY_NAME: &str = "elm-language-server";
 const SERVER_PATH: &str = "node_modules/@elm-tooling/elm-language-server/out/node/index.js";
 const PACKAGE_NAME: &str = "@elm-tooling/elm-language-server";
 
@@ -68,8 +69,16 @@ impl zed::Extension for ElmExtension {
     fn language_server_command(
         &mut self,
         server_id: &zed::LanguageServerId,
-        _worktree: &zed::Worktree,
+        worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
+        if let Some(binary_path) = worktree.which(BINARY_NAME) {
+            return Ok(zed::Command {
+                command: binary_path,
+                args: vec!["--stdio".to_string()],
+                env: Default::default(),
+            });
+        }
+
         let server_path = self.server_script_path(server_id)?;
         Ok(zed::Command {
             command: zed::node_binary_path()?,
